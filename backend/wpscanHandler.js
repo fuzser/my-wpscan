@@ -8,10 +8,10 @@ export default function wpscanHandler(req, res) {
   }
 
   // Extract parameters from request body
-  const { 'url-input': url, 'apikey-input': apiKey } = req.body || {};
+  const { 'url-input': url, 'token-input': token } = req.body || {};
 
   // Validate required parameters
-  if (!url || !apiKey) {
+  if (!url || !token) {
     res.status(400).json({ error: 'Missing URL or API key' });
     return;
   }
@@ -28,7 +28,7 @@ export default function wpscanHandler(req, res) {
   const args = ['--url', url, '--no-update', '--format', 'json'];
 
   // Pass API key as environment variable to wpscan process
-  const env = { ...process.env, WPSCAN_API_TOKEN: apiKey };
+  const env = { ...process.env, WPSCAN_API_TOKEN: token };
 
   // Spawn child process to run wpscan command asynchronously
   const wpscan = spawn('wpscan', args, { env });

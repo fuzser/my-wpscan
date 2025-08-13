@@ -4,9 +4,9 @@ export default function wpscanHandler(req, res) {
     return;
   }
 
-  const { 'url-input': url, 'apikey-input': apiKey } = req.body || {};
+  const { 'url-input': url, 'token-input': token } = req.body || {};
 
-  if (!url || !apiKey) {
+  if (!url || !token) {
     res.status(400).json({ error: 'Missing URL or API key' });
     return;
   }

@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export default function CoolInput({
   id,
-  width = '300px',
-  height = '50px',
-  color = '#00BFFF',
+  width = "300px",
+  height = "50px",
+  color = "#00BFFF",
+  margin = 0,
+  marginTop,
+  marginRight,
+  marginBottom,
+  marginLeft,
   onChange,
-  placeholder = 'Type something cool...',
+  placeholder = "Type something cool...",
 }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   if (!id) {
-    throw new Error('CoolInput 组件必须传入唯一的 id 属性');
+    throw new Error("CoolInput need unique id");
   }
 
   function handleChange(e) {
@@ -32,24 +37,29 @@ export default function CoolInput({
       style={{
         width,
         height,
-        padding: '0 15px',
-        fontSize: '18px',
-        border: '2px solid',
+        margin, // 支持简写 margin
+        marginTop, // 单向 margin 覆盖
+        marginRight,
+        marginBottom,
+        marginLeft,
+        padding: "0 15px",
+        fontSize: "18px",
+        border: "2px solid",
         borderImageSlice: 1,
-        borderWidth: '2px',
+        borderWidth: "2px",
         borderImageSource: `linear-gradient(45deg, ${color}, #8A2BE2)`,
-        borderRadius: '12px',
-        outline: 'none',
-        background: 'transparent',
+        borderRadius: "12px",
+        outline: "none",
+        background: "transparent",
         color: color,
-        transition: 'box-shadow 0.3s ease',
+        transition: "box-shadow 0.3s ease",
         boxShadow: `0 0 10px ${color}`,
-        fontWeight: '600',
+        fontWeight: "600",
       }}
-      onFocus={e => {
+      onFocus={(e) => {
         e.target.style.boxShadow = `0 0 20px ${color}, 0 0 30px #8A2BE2`;
       }}
-      onBlur={e => {
+      onBlur={(e) => {
         e.target.style.boxShadow = `0 0 10px ${color}`;
       }}
     />
