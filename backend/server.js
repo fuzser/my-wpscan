@@ -1,13 +1,11 @@
 import express from 'express';
 //import wpscanHandler from './wpscanHandler.js';
-import wpscanHandler from './test.js';
+import wpscanHandler from './wpscanHandler.js';
 import cors from 'cors';
 
 const app = express();
 
-app.use(cors({
-    origin: 'http://localhost:5173'
-}));  // 允许所有跨域请求
+app.use(cors());  // 允许所有跨域请求
 
 // Middleware to parse JSON request bodies
 app.use(express.json());

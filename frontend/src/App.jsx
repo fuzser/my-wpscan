@@ -19,7 +19,7 @@ function App() {
     console.log("JSON to send:", JSON.stringify(inputs, null, 2));
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/wpscan", {
+      const res = await fetch("/api/wpscan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputs),
