@@ -6,7 +6,8 @@ import ReadOnlyTextArea from "./ReadOnlyTextArea";
 
 function App() {
   const [inputs, setInputs] = useState({});
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleInputChange(id, val) {
     setInputs((prev) => ({ ...prev, [id]: val }));
@@ -14,23 +15,25 @@ function App() {
 
   async function handleSendToBackend() {
     console.log("Prepare data to be sent to the backend:", inputs);
-
+    setLoading(true);
     try {
-      const res = await fetch("/api/wpscan", {
+      const res = await fetch("http://localhost:3000/api/wpscan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputs),
       });
       if (res.ok) {
         const data = await res.json();
-        setResult(JSON.stringify(data, null, 2));
-        alert("Sent successfully！");
+        setResult(data.data.message);
+        //alert("Sent successfully！");
       } else {
-        alert("Failed to send!");
+        const errData = await res.json();
+        alert(errData.error || "Failed to send!");
       }
     } catch (err) {
       alert("Network Error!");
     }
+    setLoading(false);
   }
 
   return (
@@ -59,12 +62,18 @@ function App() {
           color="#f4a261"
           width="180px"
           height="60px"
-          children="Start"
+          children={loading ? "Scanning..." : "Start"}
           onClick={handleSendToBackend}
-        ></VibrateButton>
+          disabled={loading} // 请求中禁用按钮，防止重复点击
+        />
       </div>
       <div>
         <h3>scanning result</h3>
+        {loading && (
+          <div style={{ margin: "10px 0", color: "#f4a261" }}>
+            🔄 Scanning in progress...
+          </div>
+        )}
         <ReadOnlyTextArea value={result} height="300px" width="600px" />
       </div>
     </>

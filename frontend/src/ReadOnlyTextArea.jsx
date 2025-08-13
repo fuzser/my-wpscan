@@ -5,7 +5,7 @@ export default function ReadOnlyTextArea({ value = '', width = '100%', height = 
   function handleCopy() {
     if (!value) return;
     navigator.clipboard.writeText(value).then(() => {
-      alert('copied！');
+      //alert('copied！');
     }).catch(() => {
       alert('fail to copy');
     });
@@ -34,8 +34,8 @@ export default function ReadOnlyTextArea({ value = '', width = '100%', height = 
         onClick={handleCopy}
         style={{
           position: 'absolute',
-          top: '8px',
-          right: '8px',
+          top: '99%',
+          right: '0%',
           backgroundColor: '#007bff',
           border: 'none',
           color: 'white',
