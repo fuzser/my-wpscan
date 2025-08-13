@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 
 export default function CoolInput({
+  id,
   width = '300px',
   height = '50px',
-  color = '#00BFFF',   // 默认深天蓝色
+  color = '#00BFFF',
   onChange,
   placeholder = 'Type something cool...',
 }) {
   const [value, setValue] = useState('');
 
+  if (!id) {
+    throw new Error('CoolInput 组件必须传入唯一的 id 属性');
+  }
+
   function handleChange(e) {
-    setValue(e.target.value);
+    const val = e.target.value;
+    setValue(val);
     if (onChange) {
-      onChange(e.target.value);
+      onChange(id, val);
     }
   }
 
   return (
     <input
+      id={id}
       type="text"
       value={value}
       placeholder={placeholder}
