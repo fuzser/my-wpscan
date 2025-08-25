@@ -11,4 +11,6 @@ http://3.106.236.203/
 申请域名会用一些时间。  
 aplying domain, it will take some time.  
 复制按钮咱不可用，在更换成https协议后会解决。  
-copy bottun is not available now but it will ve solved when http update to https version.  
+copy bottun is not available now but it will ve solved when http update to https version.    
+
+The author is currently struggling to make ends meet, so updates are temporarily suspended.  
