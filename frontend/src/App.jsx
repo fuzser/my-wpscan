@@ -4,6 +4,7 @@ import CoolInput from "./CoolInput";
 import VibrateButton from "./VibrateButton";
 import ReadOnlyTextArea from "./ReadOnlyTextArea";
 import WpscanTokenGuide from "./WpscanTokenGuide";
+import Spacer from "./Spacer";
 
 function App() {
   const [inputs, setInputs] = useState({});
@@ -14,7 +15,7 @@ function App() {
     setInputs((prev) => ({ ...prev, [id]: val }));
   }
 
-  async function handleSendToBackend() {
+  async function handleScanJson() {
     console.log("Prepare data to be sent to the backend:", inputs);
     console.log("JSON to send:", JSON.stringify(inputs, null, 2));
     setLoading(true);
@@ -28,6 +29,38 @@ function App() {
         const data = await res.json();
         setResult(data.data.message);
         //alert("Sent successfully！");
+      } else {
+        const errData = await res.json();
+        alert(errData.error || "Failed to send!");
+      }
+    } catch (err) {
+      alert("Network Error!");
+    }
+    setLoading(false);
+  }
+
+  // 新增处理函数
+  async function handleSendToAI() {
+    const inviteCode = inputs["Invite-Code"] || "";
+    const readOnlyContent = result || "";
+
+    const payload = {
+      inviteCode,
+      readOnlyContent,
+    };
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        alert("Sent to AI successfully!");
+        console.log("AI response:", data);
       } else {
         const errData = await res.json();
         alert(errData.error || "Failed to send!");
@@ -55,7 +88,7 @@ function App() {
           marginTop="20px"
         />
         <br />
-        <CoolInput 
+        <CoolInput
           id="token-input"
           width="600px"
           height="50px"
@@ -71,7 +104,7 @@ function App() {
           width="180px"
           height="60px"
           children={loading ? "Scanning..." : "Start"}
-          onClick={handleSendToBackend}
+          onClick={handleScanJson}
           disabled={loading} // 请求中禁用按钮，防止重复点击
         />
       </div>
@@ -84,6 +117,29 @@ function App() {
         )}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <ReadOnlyTextArea value={result} height="300px" width="600px" />
+        </div>
+        <div>
+          <p>Use an invitation code to get AI reading optimization</p>
+        </div>
+        <div>
+          <CoolInput
+            id="Invite-Code"
+            width="600px"
+            height="50px"
+            color="#0080FF"
+            placeholder="Invitation Code"
+            onChange={handleInputChange}
+            marginTop="20px"
+            marginBottom="20px"
+          />
+          <VibrateButton
+            color="#f4a261"
+            width="90px"
+            height="60px"
+            children={loading ? "Scanning..." : "Go!"}
+            onClick={handleSendToAI}
+            disabled={loading} // 请求中禁用按钮，防止重复点击
+          />
         </div>
       </div>
     </>

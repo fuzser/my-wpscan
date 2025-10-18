@@ -1,38 +1,37 @@
-import express from "express";
 import OpenAI from "openai";
-import dotenv from "dotenv";
 
-dotenv.config(); // Load environment variables from .env
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const app = express();
-app.use(express.json()); // Parse JSON request body
+// Example list of valid invite codes (can be replaced with DB or API verification)
+const VALID_INVITE_CODES = ["whatislove", "babydonthurtme"];
 
-// Initialize OpenAI client
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// Example API route
-app.post("/api/analyze", async (req, res) => {
+export default async function aiHandler(req, res) {
   try {
-    const { text } = req.body;
+    const { inviteCode, readOnlyContent } = req.body;
 
+    // 1. Verify invite code
+    if (!inviteCode || !VALID_INVITE_CODES.includes(inviteCode)) {
+      return res.status(403).json({ 
+        success: false, 
+        error: "Invalid invite code" 
+      });
+    }
+
+    // 2. Call OpenAI to analyze the text
     const completion = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are a helpful assistant." },
-        { role: "user", content: `Analyze the following text:\n${text}` },
+        { role: "user", content: `Analyze the following text:\n${readOnlyContent}` },
       ],
       temperature: 0.3,
-      //max_tokens: 500,
     });
 
-    res.json({ 
-      success: true,
-      result: completion.choices[0].message.content 
-    });
+    // 3. Return the AI result
+    res.json({ success: true, result: completion.choices[0].message.content });
+
   } catch (error) {
-    console.error("Error:", error);
+    console.error(error);
     res.status(500).json({ success: false, error: error.message });
   }
-});
+}
