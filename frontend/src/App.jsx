@@ -44,10 +44,7 @@ function App() {
     const inviteCode = inputs["Invite-Code"] || "";
     const readOnlyContent = result || "";
 
-    const payload = {
-      inviteCode,
-      readOnlyContent,
-    };
+    const payload = { inviteCode, readOnlyContent };
 
     setLoading(true);
     try {
@@ -61,6 +58,9 @@ function App() {
         const data = await res.json();
         alert("Sent to AI successfully!");
         console.log("AI response:", data);
+
+        // return the AI result to the read-only textbox
+        document.getElementById("readonlyTextbox").value = data.result;
       } else {
         const errData = await res.json();
         alert(errData.error || "Failed to send!");
@@ -103,10 +103,11 @@ function App() {
           color="#f4a261"
           width="180px"
           height="60px"
-          children={loading ? "Scanning..." : "Start"}
           onClick={handleScanJson}
-          disabled={loading} // 请求中禁用按钮，防止重复点击
-        />
+          disabled={loading} // stop multiple clicks during request
+        >          
+          {loading ? "Scanning..." : "Go!"}
+        </VibrateButton>
       </div>
       <div style={{ textAlign: "center" }}>
         <h3>Scanning Result</h3>
@@ -136,10 +137,11 @@ function App() {
             color="#f4a261"
             width="90px"
             height="60px"
-            children={loading ? "Scanning..." : "Go!"}
             onClick={handleSendToAI}
-            disabled={loading} // 请求中禁用按钮，防止重复点击
-          />
+            disabled={loading}
+          >
+            {loading ? "Scanning..." : "Go!"}
+          </VibrateButton>
         </div>
       </div>
     </>
