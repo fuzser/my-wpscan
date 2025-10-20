@@ -5,6 +5,8 @@ import VibrateButton from "./VibrateButton";
 import ReadOnlyTextArea from "./ReadOnlyTextArea";
 import WpscanTokenGuide from "./WpscanTokenGuide";
 import Spacer from "./Spacer";
+import Footer from "./Footer";
+import Header from "./Header";
 
 function App() {
   const [inputs, setInputs] = useState({});
@@ -73,6 +75,7 @@ function App() {
 
   return (
     <>
+      <Header />
       <div>
         <WpscanTokenGuide />
       </div>
@@ -144,6 +147,7 @@ function App() {
           </VibrateButton>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
