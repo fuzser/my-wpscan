@@ -13,6 +13,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 垂直居中 */
+  align-items: center;     /* 水平居中 */
+  min-height: 80vh;
+  text-align: center;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -25,10 +34,10 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  flex-direction: column; /* Header -> main -> Footer */
   min-height: 100vh;
 }
+
 
 h1 {
   font-size: 3.2em;
