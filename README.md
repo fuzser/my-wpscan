@@ -5,8 +5,8 @@ This website is an online WordPress vulnerability detection platform based on WP
 
 update version 1.0:  
 临时入口  
-temprary portal  
-http://3.106.236.203/  
+I've got my own domain name now!  
+http://wpcheck.abrdns.com/   
 
 申请域名会用一些时间。  
 aplying domain, it will take some time.  
