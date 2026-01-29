@@ -6,7 +6,7 @@ This website is an online WordPress vulnerability detection platform based on WP
 update version 1.0:  
 拿到新域名啦  
 I've got my own domain name now!  
-http://wpcheck.abrdns.com/   
+http://3.106.236.203/   
 
 申请域名会用一些时间。  
 aplying domain, it will take some time.  
